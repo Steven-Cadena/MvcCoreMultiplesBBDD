@@ -40,8 +40,9 @@ namespace MvcCoreMultiplesBBDD.Controllers
         [HttpPost]
         public IActionResult UpdateSalario(int idempleado, int incremento) 
         {
-
-            return View();        
+            this.repo.UpdateSalarioempleado(idempleado, incremento);
+            Empleado empleado = this.repo.FindEmpleado(idempleado);
+            return View(empleado);        
         }
     }
 }
