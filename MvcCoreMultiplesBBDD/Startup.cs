@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcCoreMultiplesBBDD.Data;
+using MvcCoreMultiplesBBDD.Repositories;
 using MvcCoreMultiplesBBDD.Repository;
 using System;
 using System.Collections.Generic;
@@ -30,17 +31,29 @@ namespace MvcCoreMultiplesBBDD
             /*********************IMPORTANTE************************/
             string cadenaoracle = this.Configuration.GetConnectionString("hospitaloracle");
             string cadenasqlserver = this.Configuration.GetConnectionString("hospitalsqlserver");
-            services.AddTransient<RepositoryEmpleados>();
-            //ACCESO A DATOS SQL SERVER *********************
-            services.AddDbContext<HospitalContext>(options => options.UseSqlServer(cadenasqlserver));
+            string cadenamysql = this.Configuration.GetConnectionString("hospitalmysql");
+
+            //ACCESO A DATOS SQL SERVER *********************SQL SERVER
+            //services.AddTransient<IRepositoryEmpleados, RepositoryEmpleadosSQL>();
+            //services.AddDbContext<HospitalContext>(options => options.UseSqlServer(cadenasqlserver));
 
             //esta solucion es modificando el find details el filtro
             //services.AddDbContext<HospitalContext>(options => options.UseOracle(cadenaoracle));
             //SOLUCION PARA ORACLE CON EL FIND DETAILS, sustituyendo la de arriba es mejor esta solucion
-            //esto es para ORACLE*************************************
-            /*services.AddDbContext<HospitalContext>
+            //esto es para *************************************ORACLE
+            /*services.AddTransient<IRepositoryEmpleados, RepositoryEmpleadosOracle>();
+            services.AddDbContext<HospitalContext>
             (options => options.UseOracle(cadenaoracle, options => options
             .UseOracleSQLCompatibility("11")));*/
+
+            /*esto es para *******************************MYSQL*/
+
+            services.AddTransient<IRepositoryEmpleados, RepositoryEmpleadosMysql>();
+            services.AddDbContext<HospitalContext>(options => options.UseMySql(cadenamysql,ServerVersion.AutoDetect(cadenamysql)));
+            
+            
+            //services.AddDbContextPool<MyDBContext>(options => options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
+
 
             services.AddControllersWithViews();
         }

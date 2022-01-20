@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MvcCoreMultiplesBBDD.Models;
+using MvcCoreMultiplesBBDD.Repositories;
 using MvcCoreMultiplesBBDD.Repository;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace MvcCoreMultiplesBBDD.Controllers
 {
     public class EmpleadosController : Controller
     {
-        private RepositoryEmpleados repo;
-        public EmpleadosController(RepositoryEmpleados repo) 
+        private IRepositoryEmpleados repo;
+        public EmpleadosController(IRepositoryEmpleados repo) 
         {
             this.repo = repo;
         }
@@ -40,7 +41,7 @@ namespace MvcCoreMultiplesBBDD.Controllers
         [HttpPost]
         public IActionResult UpdateSalario(int idempleado, int incremento) 
         {
-            this.repo.UpdateSalarioempleado(idempleado, incremento);
+            this.repo.UpdateSalarioEmpleado(idempleado, incremento);
             Empleado empleado = this.repo.FindEmpleado(idempleado);
             return View(empleado);        
         }
