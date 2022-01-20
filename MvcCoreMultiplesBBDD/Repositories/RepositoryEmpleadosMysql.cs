@@ -43,8 +43,10 @@ namespace MvcCoreMultiplesBBDD.Repositories
 
         public Empleado FindEmpleado(int id)
         {
-            throw new NotImplementedException();
-
+            string sql = "call hospital.SP_FIND_EMPLEADO(@idempleado);";
+            MySqlParameter pamid = new MySqlParameter("@idempleado", id);
+            var consulta = this.context.Empleados.FromSqlRaw(sql, pamid);
+            return consulta.ToList().FirstOrDefault();
         }
 
         public void UpdateSalarioEmpleado(int id, int incremento)
