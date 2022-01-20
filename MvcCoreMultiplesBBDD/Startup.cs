@@ -51,9 +51,6 @@ namespace MvcCoreMultiplesBBDD
             services.AddTransient<IRepositoryEmpleados, RepositoryEmpleadosMysql>();
             services.AddDbContext<HospitalContext>(options => options.UseMySql(cadenamysql,ServerVersion.AutoDetect(cadenamysql)));
             
-            
-            //services.AddDbContextPool<MyDBContext>(options => options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
-
 
             services.AddControllersWithViews();
         }
